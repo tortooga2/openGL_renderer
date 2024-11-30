@@ -1,0 +1,6 @@
+/Users/chasenagle/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake --preset windows-build -S /Users/chasenagle/CLionProjects/CMAKE_TEST -B /Users/chasenagle/CLionProjects/CMAKE_TEST/cmake-build-window-build
+CMake Error: No such preset in /Users/chasenagle/CLionProjects/CMAKE_TEST: "windows-build"
+Available configure presets:
+
+  "default"
+  "macos-app"

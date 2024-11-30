@@ -1,0 +1,4 @@
+/Users/chasenagle/CLionProjects/RenderingEngine/build/default/CMakeFiles/OpenGLProject.dir
+/Users/chasenagle/CLionProjects/RenderingEngine/build/default/CMakeFiles/always_copy_files.dir
+/Users/chasenagle/CLionProjects/RenderingEngine/build/default/CMakeFiles/edit_cache.dir
+/Users/chasenagle/CLionProjects/RenderingEngine/build/default/CMakeFiles/rebuild_cache.dir

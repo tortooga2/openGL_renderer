@@ -1,0 +1,4 @@
+/Users/chasenagle/CLionProjects/RenderingEngine/build/macos-app/CMakeFiles/OpenGLProject.dir
+/Users/chasenagle/CLionProjects/RenderingEngine/build/macos-app/CMakeFiles/always_copy_files.dir
+/Users/chasenagle/CLionProjects/RenderingEngine/build/macos-app/CMakeFiles/edit_cache.dir
+/Users/chasenagle/CLionProjects/RenderingEngine/build/macos-app/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,53 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 19,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      },
+      "description": "Default build with Ninja in Release mode"
+    },
+    {
+      "name": "macos-app",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/macos-app",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      },
+//      "conditions": ["hostSystemName:Darwin"],
+      "description": "macOS build creating .app bundle"
+    },
+    {
+      "name": "windows-exe",
+      "generator": "Visual Studio 16 2019",
+      "binaryDir": "${sourceDir}/build/windows-exe",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      },
+//      "conditions": ["hostSystemName:Windows"],
+      "description": "Windows build creating .exe"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default-build",
+      "configurePreset": "default"
+    },
+    {
+      "name": "macos-build",
+      "configurePreset": "macos-app"
+    },
+    {
+      "name": "windows-build",
+      "configurePreset": "windows-exe"
+    }
+  ]
+}
