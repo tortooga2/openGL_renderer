@@ -26,7 +26,7 @@ const unsigned int SCR_HEIGHT = 750;
 
 
 
-
+Engine *engine;
 
 
 
@@ -42,8 +42,8 @@ void processInput(GLFWwindow *window){
 int main() {
 
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
@@ -71,21 +71,29 @@ int main() {
     glEnable(GL_DEPTH_TEST);
 
 
-    Engine engine(window);
-    engine.Setup();
+    engine = new Engine(window);
+    engine->Setup();
 
-
+    float lastFrameTime = glfwGetTime();
+    float dt;
 
     while (!glfwWindowShouldClose(window))
     {
+
+        dt = (float)glfwGetTime() - lastFrameTime;
+        engine->GetTimeDelta(dt);
+        lastFrameTime = (float)glfwGetTime();
 
 
         processInput(window);
         glClearColor(0.8f, 0.7f, 0.6f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        engine.Update();
-        engine.Draw();
+
+
+        engine->KeyboardEvent();
+        engine->Update();
+        engine->Draw();
 
 
         glfwSwapBuffers(window);
@@ -107,4 +115,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     // height will be significantly larger than specified on retina displays.
 
     glViewport(0, 0, width, height);
+    engine->OnResize(width, height);
+
+
+
 }

@@ -17,7 +17,7 @@
 #include <string>
 #include <unordered_map>
 
-
+using namespace std;
 
 class ShaderObject {
 private:
@@ -26,14 +26,21 @@ private:
 
 
 public:
-    ShaderObject(std::string fragment, std::string vertex){
+    ShaderObject(std::string fragmentPath, std::string vertexPath){
+
+        string fragSource = loadShaderSource(fragmentPath);
+        string vertSource = loadShaderSource(vertexPath);
+
+
+        const char* fragShader = fragSource.c_str();
+        const char* vertShader = vertSource.c_str();
+
         unsigned int fragmentShader;
         unsigned int vertexShader;
         fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
         vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
         GLint success;
-        const char* vertShader = vertex.c_str();
 
         glShaderSource(vertexShader, 1, &vertShader, NULL);
         glCompileShader(vertexShader);
@@ -42,10 +49,10 @@ public:
         if (!success) {
             char infoLog[512];
             glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-            std::cerr << "Shader Compilation Error:\n" << infoLog << std::endl;
+            std::cerr << "Vertex Compilation Error:\n" << infoLog << std::endl;
         }
 
-        const char* fragShader = fragment.c_str();
+
         glShaderSource(fragmentShader, 1, &fragShader, NULL);
         glCompileShader(fragmentShader);
 
@@ -53,7 +60,7 @@ public:
         if (!success) {
             char infoLog[512];
             glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-            std::cerr << "Shader Compilation Error:\n" << infoLog << std::endl;
+            std::cerr << "Fragment Compilation Error:\n" << infoLog << std::endl;
         }
 
         this->shaderProgram = glCreateProgram();
@@ -64,6 +71,73 @@ public:
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
     }
+
+    ShaderObject(string fragmentPath, string vertexPath, string geoPath){
+        string fragSource = loadShaderSource(fragmentPath);
+        string vertSource = loadShaderSource(vertexPath);
+        string geoSource = loadShaderSource(geoPath);
+
+
+        const char* fragShader = fragSource.c_str();
+        const char* vertShader = vertSource.c_str();
+        const char* geoShader = geoSource.c_str();
+
+
+
+        unsigned int fragmentShader;
+        unsigned int vertexShader;
+        unsigned int geomatryShader;
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        geomatryShader = glCreateShader(GL_GEOMETRY_SHADER);
+
+        GLint success;
+
+
+        glShaderSource(vertexShader, 1, &vertShader, NULL);
+        glCompileShader(vertexShader);
+
+
+        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+        if (!success) {
+            char infoLog[512];
+            glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+            std::cerr << "Vertex Compilation Error:\n" << infoLog << std::endl;
+        }
+
+        glShaderSource(fragmentShader, 1, &fragShader, NULL);
+        glCompileShader(fragmentShader);
+
+        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+        if (!success) {
+            char infoLog[512];
+            glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+            std::cerr << "Fragment Compilation Error:\n" << infoLog << std::endl;
+        }
+
+
+        glShaderSource(geomatryShader, 1, &geoShader, NULL);
+        glCompileShader(geomatryShader);
+        glGetShaderiv(geomatryShader, GL_COMPILE_STATUS, &success);
+        if (!success) {
+            char infoLog[512];
+            glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+            std::cerr << "Geomatry Compilation Error:\n" << infoLog << std::endl;
+        }
+
+
+        this->shaderProgram = glCreateProgram();
+        glAttachShader(this->shaderProgram, vertexShader);
+        glAttachShader(this->shaderProgram, fragmentShader);
+        glAttachShader(this->shaderProgram, geomatryShader);
+        glLinkProgram(this->shaderProgram);
+
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
+        glDeleteShader(geomatryShader);
+    }
+
+
 
 
     ShaderObject(){
@@ -135,8 +209,23 @@ public:
         glUniform4f(vecLocation, Vector4.r, Vector4.g, Vector4.b, Vector4.a);
     }
 
+    void setUniformSampler2D(char* name, unsigned int Texture) const{
+        // Activate texture unit 0
+        glActiveTexture(GL_TEXTURE0);
+        // Bind your texture
+        glBindTexture(GL_TEXTURE_2D, Texture);
+        // Set the sampler uniform in your shader to use texture unit 0
+        int samplerLocation = glGetUniformLocation(shaderProgram, name);
+        glUniform1i(samplerLocation, 0);
+
+    }
+
     void Use() const{
         glUseProgram(this->shaderProgram);
+    }
+
+    void StopUsing() const{
+        glUseProgram(0);
     }
 
     ~ShaderObject(){

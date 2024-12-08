@@ -1,15 +1,27 @@
-#version 330 core
+#version 410 core
 out vec4 FragColor;
 
-in vec3 Norm;
-in vec3 Pos;
-in vec3 Color;
+in vec3 outNorm;
+in vec3 outPos;
+in vec3 outColor;
 
 
 
-
+uniform float time;
 
 void main(){
-    FragColor = vec4(Color.r, Color.g, Color.b, 1.0);
+
+    vec3 lightPos = vec3(-10.0, 10.0, 10.0);
+    vec3 lightDir = normalize(vec3(0.0, 0.0, 0.0) - lightPos);
+
+
+
+    float lum = dot(normalize(lightDir), normalize(outNorm)) * 0.5 + 0.5;
+
+    FragColor = vec4(outColor * lum, 1.0);
+
+
+
+
 }
 

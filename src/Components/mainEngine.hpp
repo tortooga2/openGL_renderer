@@ -20,7 +20,9 @@
 #include "./Helpers/FileHelpers.hpp"
 #include "./ShaderObject.hpp"
 #include "./SceneObject.hpp"
+#include "../Objects/Plane.hpp"
 #include "./Camera.hpp"
+
 
 using namespace std;
 
@@ -29,12 +31,18 @@ using namespace std;
 class Engine{
 private:
     GLFWwindow *window;
+    Camera *mainCamera;
+
+    float delta;
 
 
 
 
 public:
-    Engine(GLFWwindow *w) { window = w; };
+    Engine(GLFWwindow *w) {
+        window = w;
+    };
+
 
     void Setup();
     void Update();
@@ -43,6 +51,17 @@ public:
     bool isKeyDown(int KeyCode){
         return glfwGetKey(window, KeyCode);
     }
+
+    void KeyboardEvent();
+    void GetTimeDelta(float dt){
+        delta = dt;
+    };
+
+    void OnResize(float screenWidth, float screenHeight){
+
+        mainCamera->UpdateAspectRatio(screenWidth, screenHeight);
+    }
+
 
 
 

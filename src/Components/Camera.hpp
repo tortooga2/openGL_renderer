@@ -32,31 +32,29 @@ public:
     float Yaw;
     float Pitch;
 
-    // Camera options
-    float MovementSpeed;
-    float MouseSensitivity;
-    float Zoom;
+
+    float AspectRatio;
 
 public:
-    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, -3.0f)) {
+    Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, -3.0f), int width = 750, int height = 750) {
         Position = position;
         WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
         Yaw = 90.0f;
         Pitch = 0.0f;
-        MovementSpeed = 2.5f;
-        MouseSensitivity = 0.1f;
-        Zoom = 45.0f;
+
+        UpdateAspectRatio(width, height);
         updateCameraVectors();
     }
 
-    Camera(Vector3 pos){
+
+
+    Camera(Vector3 pos, int width, int height){
         Position = glm::vec3(pos.x, pos.y, pos.z);
         WorldUp = glm::vec3(0.0f, 1.0f, 0.0f);
         Yaw = 90.0f;
         Pitch = 0.0f;
-        MovementSpeed = 2.5f;
-        MouseSensitivity = 0.1f;
-        Zoom = 45.0f;
+
+        UpdateAspectRatio(width, height);
         updateCameraVectors();
     };
 
@@ -66,7 +64,7 @@ public:
         return glm::lookAt(Position, Position + Front, Up);
     };
     glm::mat4 GetProjMatrix() {
-        return glm::perspective(glm::radians(45.0f), 1.0f , 0.001f, 100.0f);
+        return glm::perspective(glm::radians(45.0f), AspectRatio , 0.001f, 1000.0f);
     };
 
     void Use(ShaderObject *program) {
@@ -108,6 +106,10 @@ public:
         // Recalculate Right and Up vectors
         Right = glm::normalize(glm::cross(Front, WorldUp));
         Up    = glm::normalize(glm::cross(Right, Front));
+    }
+
+    void UpdateAspectRatio(float ScreenWidth, float ScreenHeight){
+        AspectRatio = ScreenWidth / ScreenHeight;
     }
 };
 
