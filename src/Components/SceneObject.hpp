@@ -19,6 +19,7 @@
 #include <unordered_map>
 
 #include "./Globals.hpp"
+#include "ShaderProgram.hpp"
 
 
 
@@ -76,7 +77,7 @@ public:
     };
 
 
-    void Draw(ShaderObject *shaderObject){
+    void Draw(ShaderProgram *shaderObject){
         //Bind Transformations
         glm::mat4x4 translateMatrix = glm::mat4x4(1.0f, 0.0f, 0.0f, 0.0f,
                                                   0.0f, 1.0f, 0.0f, 0.0f,

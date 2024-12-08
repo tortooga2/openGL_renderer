@@ -5,92 +5,60 @@
 #include "mainEngine.hpp"
 
 
-//ShaderObject* waveProgram;
-ShaderObject* basicProgram;
-
-//Plane* g;
+ShaderProgram* basicProgram;
+ShaderProgram* waveProgram;
+Plane* wave;
 Plane* g2;
-
-
 SceneObject* object;
 
 
 
 
 
-
-float rotation = 0.0f;
-
-Vector3 CameraPos = {0.0f, 0.0f, -0.01f};
-
 float t = 0.0f;
-
 float speed = 4.0f;
 
 void Engine::Setup(){
     mainCamera = new Camera();
 
-//    waveProgram = new ShaderObject("Content/Shaders/Tests/light.frag", "Content/Shaders/Tests/light.vert", "Content/Shaders/Tests/light.geom");
-    basicProgram = new ShaderObject("Content/Shaders/Tests/frag.glsl", "Content/Shaders/Tests/vert.glsl");
+    basicProgram = new ShaderProgram("Content/Shaders/Tests/basic.frag", "Content/Shaders/Tests/basic.vert");
+    waveProgram = new ShaderProgram("Content/Shaders/Tests/wave.frag", "Content/Shaders/Tests/wave.vert", "Content/Shaders/Tests/wave.geom");
 
-//    g = new Plane(300, 300);
     g2 = new Plane(300, 300);
-//    g->SetRotation(Vector3{0.0f, 0.0f, 0.0f});
-//    g->SetScale(Vector3{10.0f, 10.0, 10.0f});
     g2->SetRotation(Vector3{0.0f, 0.0f, 0.0f});
     g2->SetScale(Vector3{10.0f, 10.0, 10.0f});
 
     object = new SceneObject();
-
     object->position = Vector3{10, 1, 10};
 
+    wave = new Plane(300, 300);
 
 
+    AddObjectToScene(basicProgram, g2);
+    AddObjectToScene(basicProgram, object);
 
-
+    AddObjectToScene(waveProgram, wave);
 
 }
 
 
 void Engine::Update() {
-
-    t+=0.01;
-    object->rotation += Vector3{1.0f * delta, 0.0, 0.0};
+    setUniformFloat(waveProgram, "time", t+=0.01);
+    object->rotation += Vector3{1.0f * delta, 0.0, 1.0f * delta};
 
 
 }
 
-//-----How to Use Draw Loop------
-//1) Use a shader program (ShaderObject.Use()). This should be created in setup
-//2) Use a mainCamera if you want (mainCamera.Use()). This should be created in setup
-//3) Draw SceneObject (SceneObject.Draw()).
+
 
 void Engine::Draw() {
-//    waveProgram->Use();
-//    waveProgram->setUniformFloat("time", t);
-//    mainCamera->Use(waveProgram);
-//    g->Use(waveProgram);
-
-
-
-    basicProgram->Use();
-
-    mainCamera->Use(basicProgram);
-    object->Draw(basicProgram);
-    g2->Use(basicProgram);
-
+    DrawScene(basicProgram);
 }
 
 
 
 
 void Engine::KeyboardEvent(){
-    if(isKeyDown(GLFW_KEY_E)) {
-        rotation += 0.006;
-    }
-    if(isKeyDown(GLFW_KEY_Q)) {
-        rotation -= 0.006;
-    }
     if(isKeyDown(GLFW_KEY_W)){
         mainCamera->Position += mainCamera->Front * speed * delta;
     }

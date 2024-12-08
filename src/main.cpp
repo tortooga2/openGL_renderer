@@ -17,6 +17,7 @@
 
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void UpdateFPS(GLFWwindow* window);
 
 
 // settings
@@ -84,6 +85,9 @@ int main() {
         engine->GetTimeDelta(dt);
         lastFrameTime = (float)glfwGetTime();
 
+        UpdateFPS(window);
+
+
 
         processInput(window);
         glClearColor(0.8f, 0.7f, 0.6f, 1.0f);
@@ -119,4 +123,28 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 
 
+}
+
+
+void UpdateFPS(GLFWwindow* window) {
+    static double lastFrameTime = 0.0;
+    static double frameCount = 0.0;
+    static double lastFPSUpdateTime = 0.0;
+    static std::string fpsString;
+
+    double currentTime = glfwGetTime(); // Get current time in seconds
+    double deltaTime = currentTime - lastFrameTime;
+    lastFrameTime = currentTime;
+
+    frameCount++;
+
+    // Update the FPS title every second
+    if (currentTime - lastFPSUpdateTime >= 1.0) {
+        double fps = frameCount / (currentTime - lastFPSUpdateTime);
+        fpsString = "FPS: " + std::to_string((int)fps); // Convert FPS to string
+        glfwSetWindowTitle(window, fpsString.c_str());
+
+        frameCount = 0; // Reset the frame counter
+        lastFPSUpdateTime = currentTime; // Reset the FPS update time
+    }
 }

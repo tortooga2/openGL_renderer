@@ -10,7 +10,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "Globals.hpp"
-#include "./ShaderObject.hpp"
+#include "./ShaderProgram.hpp"
 
 // Enum for camera movements
 enum Camera_Movement {
@@ -67,7 +67,7 @@ public:
         return glm::perspective(glm::radians(45.0f), AspectRatio , 0.001f, 1000.0f);
     };
 
-    void Use(ShaderObject *program) {
+    void Use(ShaderProgram *program) {
         glm::mat4 ViewMatrix = GetViewMatrix();
         glm::mat4 ProjMatrix = GetProjMatrix();
 

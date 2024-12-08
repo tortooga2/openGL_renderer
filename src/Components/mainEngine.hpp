@@ -15,13 +15,15 @@
 #include <sstream>
 #include <vector>
 #include <string>
-#include <unordered_map>
+#include <map>
+#include <utility>
 
-#include "./Helpers/FileHelpers.hpp"
-#include "./ShaderObject.hpp"
-#include "./SceneObject.hpp"
+#include "Helpers/FileHelpers.hpp"
+#include "ShaderProgram.hpp"
+#include "SceneObject.hpp"
 #include "../Objects/Plane.hpp"
-#include "./Camera.hpp"
+#include "Camera.hpp"
+#include "Light.hpp"
 
 
 using namespace std;
@@ -34,6 +36,12 @@ private:
     Camera *mainCamera;
 
     float delta;
+
+    map<ShaderProgram*, vector<SceneObject *>> Objects;
+
+    map<ShaderProgram *, map<char*, float> > SetUniformFloats;
+
+    vector<Light *> Lights;
 
 
 
@@ -53,13 +61,46 @@ public:
     }
 
     void KeyboardEvent();
+
     void GetTimeDelta(float dt){
         delta = dt;
     };
 
     void OnResize(float screenWidth, float screenHeight){
-
         mainCamera->UpdateAspectRatio(screenWidth, screenHeight);
+    }
+
+    void AddObjectToScene(ShaderProgram *program, SceneObject *object){
+        Objects[program].push_back(object);
+    }
+
+    void setUniformFloat(ShaderProgram *p, char* name, float v){
+        SetUniformFloats[p][name] = v;
+    }
+
+    void DrawScene(ShaderProgram* program){
+
+        for(auto& program: Objects){
+            ShaderProgram *p = program.first;
+
+            p->Use();
+            mainCamera->Use(p);
+
+            for(auto& [name, f] : SetUniformFloats[p]){
+                p->setUniformFloat(name, f);
+            }
+
+            for(int i = 0; i < program.second.size(); i++){
+                program.second[i]->Draw(p);
+            }
+
+        }
+    }
+
+
+
+    void LightScene(Light* light){
+
     }
 
 

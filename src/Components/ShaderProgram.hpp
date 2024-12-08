@@ -2,8 +2,8 @@
 // Created by Chase Nagle on 11/16/24.
 //
 
-#ifndef OPENGLPROJECT_SHADEROBJECT_HPP
-#define OPENGLPROJECT_SHADEROBJECT_HPP
+#ifndef OPENGLPROJECT_SHADERPROGRAM_HPP
+#define OPENGLPROJECT_SHADERPROGRAM_HPP
 
 #include <iostream>
 #include <vector>
@@ -17,16 +17,17 @@
 #include <string>
 #include <unordered_map>
 
+
 using namespace std;
 
-class ShaderObject {
+class ShaderProgram {
 private:
     unsigned int shaderProgram;
 
 
 
 public:
-    ShaderObject(std::string fragmentPath, std::string vertexPath){
+    ShaderProgram(std::string fragmentPath, std::string vertexPath){
 
         string fragSource = loadShaderSource(fragmentPath);
         string vertSource = loadShaderSource(vertexPath);
@@ -72,7 +73,7 @@ public:
         glDeleteShader(fragmentShader);
     }
 
-    ShaderObject(string fragmentPath, string vertexPath, string geoPath){
+    ShaderProgram(string fragmentPath, string vertexPath, string geoPath){
         string fragSource = loadShaderSource(fragmentPath);
         string vertSource = loadShaderSource(vertexPath);
         string geoSource = loadShaderSource(geoPath);
@@ -140,7 +141,7 @@ public:
 
 
 
-    ShaderObject(){
+    ShaderProgram(){
         const char* fragShader = "#version 330 core\n"
                                  "out vec4 FragColor;\n"
                                  "\n"
@@ -228,7 +229,7 @@ public:
         glUseProgram(0);
     }
 
-    ~ShaderObject(){
+    ~ShaderProgram(){
         glDeleteProgram(this->shaderProgram);
     }
 
@@ -238,4 +239,7 @@ public:
 };
 
 
-#endif //OPENGLPROJECT_SHADEROBJECT_HPP
+
+
+
+#endif //OPENGLPROJECT_SHADERPROGRAM_HPP
