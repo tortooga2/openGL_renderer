@@ -17,7 +17,7 @@
 
 class Plane : public SceneObject{
 private:
-    //Choosing indexed rendering to allow more straight forward editing on CPU.
+
 
 
 
