@@ -21,8 +21,8 @@ void UpdateFPS(GLFWwindow* window);
 
 
 // settings
-const unsigned int SCR_WIDTH = 750;
-const unsigned int SCR_HEIGHT = 750;
+int SCR_WIDTH = 750;
+int SCR_HEIGHT = 750;
 
 
 
@@ -71,8 +71,9 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
 
+    glfwGetWindowSize(window, &SCR_WIDTH, &SCR_HEIGHT);
 
-    engine = new Engine(window);
+    engine = new Engine(window, SCR_WIDTH, SCR_HEIGHT);
     engine->Setup();
 
     float lastFrameTime = glfwGetTime();

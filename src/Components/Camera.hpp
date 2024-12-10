@@ -64,7 +64,8 @@ public:
         return glm::lookAt(Position, Position + Front, Up);
     };
     glm::mat4 GetProjMatrix() {
-        return glm::perspective(glm::radians(45.0f), AspectRatio , 0.001f, 1000.0f);
+        return glm::perspective(glm::radians(45.0f), AspectRatio , 1.0f, 1000.0f);
+
     };
 
     void Use(ShaderProgram *program) {

@@ -24,6 +24,7 @@
 #include "../Objects/Plane.hpp"
 #include "Camera.hpp"
 #include "Light.hpp"
+#include "../Objects/FullScreenQuad.hpp"
 
 
 using namespace std;
@@ -34,6 +35,10 @@ class Engine{
 private:
     GLFWwindow *window;
     Camera *mainCamera;
+
+    Light *light;
+
+    int WINDOW_WIDTH, WINDOW_HEIGHT;
 
     float delta;
 
@@ -47,7 +52,9 @@ private:
 
 
 public:
-    Engine(GLFWwindow *w) {
+    Engine(GLFWwindow *w, int Width, int Height) {
+        WINDOW_WIDTH = Width;
+        WINDOW_HEIGHT = Height;
         window = w;
     };
 
@@ -66,7 +73,9 @@ public:
         delta = dt;
     };
 
-    void OnResize(float screenWidth, float screenHeight){
+    void OnResize(int screenWidth, int screenHeight){
+        WINDOW_WIDTH = screenWidth;
+        WINDOW_HEIGHT = screenHeight;
         mainCamera->UpdateAspectRatio(screenWidth, screenHeight);
     }
 
@@ -85,6 +94,7 @@ public:
 
             p->Use();
             mainCamera->Use(p);
+            light->Use(p);
 
             for(auto& [name, f] : SetUniformFloats[p]){
                 p->setUniformFloat(name, f);

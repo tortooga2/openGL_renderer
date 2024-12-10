@@ -22,11 +22,12 @@ using namespace std;
 
 class ShaderProgram {
 private:
-    unsigned int shaderProgram;
+
 
 
 
 public:
+    unsigned int shaderProgram;
     ShaderProgram(std::string fragmentPath, std::string vertexPath){
 
         string fragSource = loadShaderSource(fragmentPath);
@@ -195,10 +196,7 @@ public:
         glDeleteShader(fragmentShader);
     }
 
-    void setUniformMat4x4(const char* matrixName, glm::mat4x4 &modelMatrix) const{
-        GLint matLocation = glGetUniformLocation(shaderProgram, matrixName);
-        glUniformMatrix4fv(matLocation, 1, GL_FALSE, &modelMatrix[0][0]);
-    }
+
 
     void setUniformFloat(const char* floatName, float &f){
         GLint loc = glGetUniformLocation(shaderProgram, floatName);
@@ -210,15 +208,19 @@ public:
         glUniform4f(vecLocation, Vector4.r, Vector4.g, Vector4.b, Vector4.a);
     }
 
-    void setUniformSampler2D(char* name, unsigned int Texture) const{
-        // Activate texture unit 0
-        glActiveTexture(GL_TEXTURE0);
-        // Bind your texture
-        glBindTexture(GL_TEXTURE_2D, Texture);
-        // Set the sampler uniform in your shader to use texture unit 0
-        int samplerLocation = glGetUniformLocation(shaderProgram, name);
-        glUniform1i(samplerLocation, 0);
+    void setUniformVec3(char* vecName, glm::vec3 &Vector3) const{
+        GLint vecLocation = glGetUniformLocation(shaderProgram, vecName);
+        glUniform3f(vecLocation, Vector3.r, Vector3.g, Vector3.b);
+    }
 
+    void setUniformMat4x4(const char* matrixName, glm::mat4x4 &modelMatrix) const{
+        GLint matLocation = glGetUniformLocation(shaderProgram, matrixName);
+        glUniformMatrix4fv(matLocation, 1, GL_FALSE, &modelMatrix[0][0]);
+    }
+
+    void setUniformInt(const char* name, int Num){
+        GLint matLocation = glGetUniformLocation(shaderProgram, name);
+        glUniform1i(matLocation, Num);
     }
 
     void Use() const{
