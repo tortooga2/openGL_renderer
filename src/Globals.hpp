@@ -6,7 +6,10 @@
 #define OPENGLPROJECT_GLOBALS_HPP
 
 
+#include <vector>
+#include <string>
 
+using namespace std;
 
 
 
