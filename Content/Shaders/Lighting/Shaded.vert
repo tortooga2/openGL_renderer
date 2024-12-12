@@ -8,7 +8,7 @@ layout (location = 2) in vec3 aColor;
 out vec3 vNorm;
 out vec3 vPos;
 out vec3 vColor;
-out vec4 lightSpacePosition;
+out vec4 fragLightCoord;
 
 
 uniform mat4 ViewMatrix;
@@ -19,19 +19,18 @@ uniform mat4 LightSpaceViewMatrix;
 
 
 void main(){
+    mat4 biasMatrix = mat4(
+    0.5, 0.0, 0.0, 0.0,
+    0.0, 0.5, 0.0, 0.0,
+    0.0, 0.0, 0.5, 0.0,
+    0.5, 0.5, 0.5, 1.0
+    );
 
 
-
-    vec4 WorldPos = ModelMatrix * vec4(aPos, 1.0);
-
-
-    vPos = WorldPos.xyz;
-    vColor = aColor;
+    vPos = vec3(ModelMatrix * vec4(aPos, 1.0));
     vNorm = transpose(inverse(mat3(ModelMatrix))) * aNorm;
-    //vNorm = aNorm;
-    lightSpacePosition = LightSpaceViewMatrix * vec4(vPos, 1.0);
-
-    gl_Position = ProjMatrix *  ViewMatrix * WorldPos;
-
+    vColor = aColor;
+    fragLightCoord = LightSpaceViewMatrix * vec4(vPos, 1.0);
+    gl_Position = ProjMatrix * ViewMatrix * ModelMatrix * vec4(aPos, 1.0);
 
 }

@@ -71,9 +71,9 @@ int main() {
 
     glEnable(GL_DEPTH_TEST);
 
-    glfwGetWindowSize(window, &SCR_WIDTH, &SCR_HEIGHT);
 
-    engine = new Engine(window, SCR_WIDTH, SCR_HEIGHT);
+
+    engine = new Engine(window);
     engine->Setup();
 
     float lastFrameTime = glfwGetTime();

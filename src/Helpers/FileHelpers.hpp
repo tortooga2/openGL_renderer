@@ -47,6 +47,8 @@ static std::string getFilePath(const std::string& relativePath) {
 #endif
 }
 
+
+
 static std::string loadShaderSource(const std::string& filePath){
     std::string content;
     std::string path = getFilePath(filePath);

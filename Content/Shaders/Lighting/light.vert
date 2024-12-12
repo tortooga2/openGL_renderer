@@ -1,10 +1,14 @@
-#version 410 core
-layout (location = 0) in vec3 aPos;
+#version 410
 
-uniform mat4 lightSpaceMatrix;
+layout(location = 0) in vec3 vertexPosition_modelspace;
+
+// Values that stay constant for the whole mesh.
+uniform mat4 depthProj;
+uniform mat4 depthView;
+
 uniform mat4 ModelMatrix;
 
-void main()
-{
-    gl_Position = lightSpaceMatrix * ModelMatrix * vec4(aPos, 1.0);
+void main(){
+    mat4 depthMVP = depthProj * depthView * ModelMatrix;
+    gl_Position =  depthMVP * vec4(vertexPosition_modelspace,1);
 }

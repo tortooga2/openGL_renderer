@@ -52,10 +52,10 @@ private:
 
 
 public:
-    Engine(GLFWwindow *w, int Width, int Height) {
-        WINDOW_WIDTH = Width;
-        WINDOW_HEIGHT = Height;
+    Engine(GLFWwindow *w) {
         window = w;
+        glfwGetFramebufferSize(window, &WINDOW_WIDTH, &WINDOW_HEIGHT);
+
     };
 
 

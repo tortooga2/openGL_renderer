@@ -10,6 +10,9 @@ ShaderProgram* matProgram;
 
 Plane* g2;
 SceneObject* object;
+SceneObject* object2;
+
+SceneObject* l;
 
 
 /*light is a Class variable for easier usage. Look in DrawScene to see how we set the depthMap texture (GL_TEXTURE1)
@@ -37,24 +40,37 @@ float speed = 4.0f;
 void Engine::Setup(){
     mainCamera = new Camera();
 
-    light = new Light(Vector3{0, 10, 0}, Vector3{0, 0, 0});
+    light = new Light();
+
 
 
     matProgram = new ShaderProgram("Content/Shaders/Lighting/Shaded.frag", "Content/Shaders/Lighting/Shaded.vert");
 
     g2 = new Plane(300, 300);
     g2->SetRotation(Vector3{0.0f, 0.0f, 0.0f});
-    g2->SetScale(Vector3{10.0f, 10.0, 10.0f});
+    g2->SetScale(Vector3{10.0f, 1.0, 10.0f});
 
     object = new SceneObject();
-    object->position = Vector3{5, 1, 5};
+    object->position = Vector3{0, 5, 0};
 
-    AddObjectToScene(matProgram, g2); //Add the a map in the class.
+    vector<Vertex> mesh = unpackOBJ("Content/Models/teapot_smooth.obj");
+    object2 = new SceneObject(mesh);
+    object2->position = Vector3{2.5, 2.5, 2.5};
+    object2->scale = Vector3{5, 5, 5};
+
+    l = new SceneObject();
+    l->position = Vector3{light->position.x, light->position.y, light->position.z};
+    l->scale = Vector3{0.5, 0.5, 0.5};
+
+    AddObjectToScene(matProgram, g2); //Add to a map in the class.
     AddObjectToScene(matProgram, object);
+    AddObjectToScene(matProgram, object2);
+    AddObjectToScene(matProgram, l);
 
 
 
 
+    //glEnable(GL_CULL_FACE);
 
 
 
@@ -63,26 +79,33 @@ void Engine::Setup(){
 
 
 void Engine::Update() {
-    //t+=0.01;
-    //light->position += glm::vec3(0.0, (float)cos(t), 0.0);
+    t+=0.01;
+    //object->position = Vector3{ 5.0f * cos(t), 2.0f + 2.0f * sin(t) , 5.0f * sin(t)};
+    light->position = glm::vec3(10.f * cos(t), 5.0f, 10.f * sin(t));
+    l->position = Vector3{light->position.x, light->position.y, light->position.z};
+
 }
 
 
 
 void Engine::Draw() {
+
+    //glCullFace(GL_FRONT);
     light->Start(); //We 'start' the light which configures the shader program as well as any uniforms
-    g2->Draw(light->getShaderProgram()); //We then draw objects.
-    object->Draw(light->getShaderProgram());
+    g2->Draw(light->Program); //We then draw objects.
+    object->Draw(light->Program);
+    object2->Draw(light->Program);
     light->Stop(); // Resets the rendering target to openGL default.
 
 
 
 
-//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT) // Does not seem to have any effect.
-//    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);  //lines cause the scene to stop rendering correctly, about a forth of the size until I resize the window (Possible due to working on a retina display.
+    //glCullFace(GL_BACK);
 
-
+//    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Does not seem to have any effect.
+    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);  //lines cause the scene to stop rendering correctly, about a forth of the size until I resize the window (Possible due to working on a retina display.
     DrawScene(matProgram); //Draws all objects mapped to this shader program object. Look in header file its pretty simple.
+
 }
 
 

@@ -223,6 +223,10 @@ public:
         glUniform1i(matLocation, Num);
     }
 
+    void setUniformSampler2D(const char* name, int Num){
+        glUniform1i(glGetUniformLocation(shaderProgram, name), Num);
+    }
+
     void Use() const{
         glUseProgram(this->shaderProgram);
     }
