@@ -30,12 +30,14 @@ public:
     vector<Vertex> GeneratePlane(float size, float rows, float columns){
         vector<Vertex> outMesh;
         vector<Vertex> tempMesh;
+        float start_x = -1.0f;
+        float start_z = -1.0f;
         for(int x = 0; x < columns; x++){
             for(int z = 0; z < rows; z++){
                 Vertex v;
-                v.position[0] = x * size;
+                v.position[0] = start_x + x * size;
                 v.position[1] = 0;
-                v.position[2] = z * size;
+                v.position[2] = start_z + z * size;
 
                 v.normal[0] = 0.0;
                 v.normal[1] = 1.0;

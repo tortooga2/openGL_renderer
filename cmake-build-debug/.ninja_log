@@ -1,5 +1,0 @@
-# ninja log v5
-1	111	1731813306148373167	CMakeFiles/OpenGLProject.dir/src/glad.c.o	b8f7dd492c33133e
-6	703	1732602484610049436	CMakeFiles/OpenGLProject.dir/src/main.cpp.o	31ff247ae18e8c6c
-5	634	1732602484541128018	CMakeFiles/OpenGLProject.dir/src/Components/Ground.cpp.o	99b13e017ef70819
-704	917	1732602484790757596	bin/OpenGLProject.app/Contents/MacOS/OpenGLProject	318341a48d84ac0f

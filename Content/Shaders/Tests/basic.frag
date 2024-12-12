@@ -5,9 +5,12 @@ in vec3 vNorm;
 in vec3 vPos;
 in vec3 vColor;
 
+uniform vec3 lightPos;
 
 
 void main()
 {
-    FragColor = vec4(vColor, 1.0);
+    vec3 lightDir = normalize(vPos - lightPos);
+    float lum = dot(vNorm, lightDir);
+    FragColor = vec4(vColor * lum, 1.0);
 }
