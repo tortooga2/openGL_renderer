@@ -74,3 +74,7 @@
 7	161	1734001493832261933	bin/OpenGLProject.app/Contents/MacOS/OpenGLProject	fcd56a6d5d617678
 21	382	1734033694988864764	bin/OpenGLProject.app/Contents/MacOS/OpenGLProject	fcd56a6d5d617678
 18	175	1734033706876042904	bin/OpenGLProject.app/Contents/MacOS/OpenGLProject	fcd56a6d5d617678
+4	293	1734036273811851844	CMakeFiles/OpenGLProject.dir/src/glad.c.o	622c6a71da1aac91
+4	770	1734036273812009597	CMakeFiles/OpenGLProject.dir/src/main.cpp.o	8e238eb46e5252dd
+3	1095	1734036273811130663	CMakeFiles/OpenGLProject.dir/src/Components/mainEngine.cpp.o	a6b4eab69b4d6734
+1095	1259	1734036274902946720	bin/OpenGLProject.app/Contents/MacOS/OpenGLProject	fcd56a6d5d617678
