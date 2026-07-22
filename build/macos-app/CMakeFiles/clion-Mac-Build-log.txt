@@ -1,8 +1,0 @@
-/Users/chasenagle/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake --preset macos-app -S /Users/chasenagle/CLionProjects/RenderingEngine -B /Users/chasenagle/CLionProjects/RenderingEngine/build/macos-app
-Preset CMake variables:
-
-  CMAKE_BUILD_TYPE="Release"
-
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /Users/chasenagle/CLionProjects/RenderingEngine/build/macos-app
